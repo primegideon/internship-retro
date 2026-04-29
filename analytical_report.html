@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytical Report - Ride-Share Demand Analysis</title>
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .document-page {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 60px 80px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+        h1 {
+            font-size: 28px;
+            color: #111;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 20px;
+            color: #555;
+            margin-bottom: 30px;
+            font-weight: normal;
+        }
+        .metadata-box {
+            background-color: #f9fafb;
+            border-left: 4px solid #2563eb;
+            padding: 15px 20px;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+        .metadata-box p {
+            margin: 5px 0;
+        }
+        h2 {
+            font-size: 18px;
+            color: #1e3a8a;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 8px;
+            margin-top: 35px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        h3 {
+            font-size: 16px;
+            color: #111;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        ul {
+            margin-bottom: 15px;
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .highlight {
+            background-color: #eff6ff;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #bfdbfe;
+            margin: 20px 0;
+        }
+        .highlight p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="document-page">
+
+    <h1>Project 4 Team 2 — Analytical Report</h1>
+    <h2 class="subtitle" style="border:none; margin-top:0;">Ride-Share Demand Analysis</h2>
+
+    <div class="metadata-box">
+        <p><strong>Programme:</strong> Data Analytics Internship 2026</p>
+        <p><strong>Domain:</strong> Transport</p>
+        <p><strong>BigQuery Dataset:</strong> <code>bigquery-public-data.chicago_taxi_trips.taxi_trips</code></p>
+        <p><strong>Dashboard tool:</strong> Looker Studio</p>
+    </div>
+
+    <h2>Executive Summary</h2>
+    <p>This report analyzes 5.1 million Chicago taxi trips from 2023 to identify operational inefficiencies and peak profitability windows for fleet managers. Our top findings reveal a massive revenue surge at 5:00 PM, a severe drop in reported tips for cash transactions (0.35% vs 93.6% for cards), and a 4x higher average fare for trips exceeding 10 miles. We strongly recommend that fleet managers stagger driver shifts to maximize vehicle presence between 2:00 PM and 7:00 PM, mandate digital POS terminals in all vehicles to boost driver tip retention, and prioritize staging at major transit hubs like O'Hare.</p>
+
+    <h2>1. Introduction and Objectives</h2>
+    <p>The primary business question we sought to answer was: <em>How can fleet managers optimize driver staging and payment policies to maximize daily profitability and driver retention?</em> This matters because inefficient vehicle deployment results in missed revenue during peak commuter hours. Furthermore, unpredictable driver take-home pay (heavily influenced by untracked cash tips) leads to high driver turnover in a highly competitive ride-share market.</p>
+
+    <h2>2. Data and Methodology</h2>
+    <p>The analysis utilized the public <code>chicago_taxi_trips</code> dataset accessed via Google BigQuery. We filtered the raw data to focus specifically on the 2023 fiscal year. During the data cleaning phase, we utilized SQL to remove zero-mile trip anomalies, filter out trips with negative or missing fares, and exclude trips with no identified taxi company. The resulting clean dataset of approximately 5.1 million rows was then analyzed using advanced SQL functions (CTEs, Window Functions) and connected live to Looker Studio for visual aggregation.</p>
+
+    <h2>3. Key Findings</h2>
+
+    <h3>Finding 1: The 5:00 PM Revenue Surge</h3>
+    <p>Demand and revenue peak sharply in the late afternoon, with 5:00 PM (17:00) standing as the absolute highest-grossing hour. The data shows a massive concentration of the total 1.24M annual trips occurring between 14:00 and 19:00, with the 17:00 hour alone driving over $12.2 million in annual revenue.</p>
+
+    <h3>Finding 2: The Digital Payment "Tip Gap"</h3>
+    <p>There is a massive discrepancy in tipping behavior based on the payment method used. Credit card users leave a tip 93.6% of the time, whereas cash users leave a recorded tip only 0.35% of the time. This indicates that cash tips are heavily under-reported, artificially lowering the overall fleet average tip rate (17.3%).</p>
+
+    <h3>Finding 3: Long-Distance Trip Economics</h3>
+    <p>While short trips (0-2 miles) account for the highest total volume of fleet rides, trips exceeding 10 miles yield significantly higher financial returns. Rides in the 10+ mile distance bucket generate an average fare of $41.50, compared to the fleet-wide average fare of just $15.17.</p>
+
+    <h2>4. Crown Metric Analysis</h2>
+    <div class="highlight">
+        <p><strong>Question:</strong> What is the most profitable hour-and-day combination for a Chicago taxi driver?</p>
+        <p style="margin-top: 10px;"><strong>Answer:</strong> The most profitable combination is <strong>Thursday at 5:00 PM (17:00)</strong>.</p>
+    </div>
+    <ul>
+        <li><strong>Angle 1 (Day Volume):</strong> Our Daily Trips analysis proves that Thursday is the highest-volume day of the week, logging over 1.07 million total trips for the year.</li>
+        <li><strong>Angle 2 (Hourly Revenue):</strong> Our Peak Hour ranking using SQL window functions confirms that 17:00 is the #1 revenue-generating hour of the day. The intersection of this weekly volume peak and the daily rush-hour surge makes Thursday at 5:00 PM the undisputed crown metric for driver profitability.</li>
+    </ul>
+
+    <h2>5. Limitations</h2>
+    <p>The primary limitation of this analysis is that it relies solely on traditional taxi data and does not include modern ride-share competitors (Uber/Lyft), meaning we are only viewing a fraction of total city transit demand. Additionally, the near-zero cash tip reporting (0.35%) is likely a tracking limitation rather than true customer behavior. This analysis would be significantly stronger if we had access to historical driver shift schedules to map actual vehicle supply against this rider demand.</p>
+
+    <h2>6. Recommendations</h2>
+    <p>Based on these findings, Fleet Management should execute the following actions:</p>
+    <ul>
+        <li><strong>Fleet Managers:</strong> Stagger driver schedules to heavily incentivize late-afternoon shifts. Instead of early morning starts, ensure maximum fleet availability between 14:00 and 19:00 to capture the 5 PM surge.</li>
+        <li><strong>Operations/IT:</strong> Mandate and strictly maintain digital POS terminals in 100% of the fleet. Enforcing card payments will allow drivers to capture their 93.6% tip rate, increasing their take-home pay and reducing churn.</li>
+        <li><strong>Dispatchers:</strong> Direct idle drivers to prioritize staging at high-yield long-distance hubs (such as O'Hare International Airport or Union Station) to capture the premium $41.50+ average fares rather than circling downtown for low-yield 1-mile trips.</li>
+    </ul>
+
+    <h2>7. Appendix — SQL Query Reference</h2>
+    <ul>
+        <li><strong><code>Q1_Hourly</code> & <code>Q1_Daily</code>:</strong> Aggregation queries used to map trip counts by hour of the day and day of the week to identify demand heatmaps.</li>
+        <li><strong><code>Q3_TripDistance</code>:</strong> Utilized <code>CASE WHEN</code> statements to group continuous mileage data into categorical distance buckets (0-2 miles, 2-5 miles, etc.) to calculate average fares per bucket.</li>
+        <li><strong><code>Q5_TipRate</code>:</strong> Calculated the tip frequency percentage grouped by payment type using <code>AVG(IF(tips > 0, 1, 0))</code>.</li>
+        <li><strong><code>Q6_PeakHourRank</code>:</strong> Utilized the <code>RANK() OVER (ORDER BY total_revenue DESC)</code> window function to mathematically identify the most profitable hours of the day.</li>
+    </ul>
+
+</div>
+
+</body>
+</html>
