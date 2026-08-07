@@ -1,7 +1,7 @@
 # Throwback on Internship Program
 
 🔭 **What I worked on:**
-* **Data Science Internship @ Thrive Africa:** Collaborated on a ride-share demand analysis project.
+* **Data Science Internship @ Thrive Africa:** Collaborated on [a ride-share demand analysis project](https://github.com/data-analytics-internship-2026/project-4-team-2).
 * **Predictive Modeling:** Engineered time and payment features to build a Random Forest Regressor for exact fare prediction (MAE: $2.78) and a Random Forest Classifier for tip prediction (Accuracy: 94%).
 
 🌱 **I’m currently learning:**
