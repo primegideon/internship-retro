@@ -1,0 +1,7 @@
+[theme]
+base = "dark"
+primaryColor = "#4F709C"           # A muted, soft blue for buttons and interactive elements
+backgroundColor = "#1A1A1A"        # Soft dark grey, much gentler than pure black
+secondaryBackgroundColor = "#2B2B2B" # Slightly lighter grey for the sidebar and input fields
+textColor = "#E0E0E0"              # Off-white text to reduce contrast glare
+font = "sans serif"
